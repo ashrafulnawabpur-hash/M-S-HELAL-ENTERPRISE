@@ -1,693 +1,809 @@
-<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>M/S Helal Enterprise | Bearings & Industrial Parts - Dhaka, Bangladesh</title>
-    <script data-arena-recording="true">(function(){
-"use strict";
-var SK="__arena_rec",RRWEB_CDN="https://cdn.jsdelivr.net/npm/rrweb@2.0.0-alpha.4/dist/rrweb.min.js";
-var MAX_RECORDING_MS=600000,MAX_RRWEB_EVENTS=30000,MAX_INTERACTIONS=5000,MAX_CURSOR_POINTS=10000,recStopped=false;
-var stored=null;try{var raw=sessionStorage.getItem(SK);if(raw)stored=JSON.parse(raw);}catch(ex){}
-var meta=stored?stored.m||null:null,rrwebEvents=stored?stored.r||[]:[],rrwebStarted=false,startTime=stored?stored.st||Date.now():Date.now();
-var interactions=stored?stored.i||[]:[],cursorPath=stored?stored.c||[]:[],lastCursorSample=0,lastScrollSample=0;
-var pageHeight=document.documentElement.scrollHeight;
-var viewport={width:window.innerWidth,height:window.innerHeight};
-function isCapped(){if(recStopped)return true;if(Date.now()-startTime>=MAX_RECORDING_MS){recStopped=true;return true;}return false;}
-function persist(){try{var d=JSON.stringify({r:rrwebEvents,i:interactions,c:cursorPath,m:meta,st:startTime});sessionStorage.setItem(SK,d);}catch(ex){rrwebEvents=rrwebEvents.slice(Math.floor(rrwebEvents.length/2));try{sessionStorage.setItem(SK,JSON.stringify({r:rrwebEvents,i:interactions,c:cursorPath,m:meta,st:startTime}));}catch(ex2){}}}
-setInterval(persist,5000);
-window.addEventListener("resize",function(){viewport={width:window.innerWidth,height:window.innerHeight};pageHeight=document.documentElement.scrollHeight;});
-document.addEventListener("click",function(e){if(isCapped()||interactions.length>=MAX_INTERACTIONS)return;var el=e.target;var tag=el.tagName?el.tagName.toLowerCase():"";var text=(el.textContent||"").trim().substring(0,80);var classes=el.className&&typeof el.className==="string"?el.className.substring(0,120):"";interactions.push({type:"click",t:Date.now()-startTime,x:Math.round(e.clientX),y:Math.round(e.clientY),element:{tag:tag,text:text,classes:classes}});},true);
-window.addEventListener("scroll",function(){if(isCapped()||interactions.length>=MAX_INTERACTIONS)return;var now=Date.now();if(now-lastScrollSample<200)return;lastScrollSample=now;var scrollY=Math.round(window.scrollY||window.pageYOffset||0);var depthPct=pageHeight>viewport.height?Math.min(100,Math.round(((scrollY+viewport.height)/pageHeight)*100)):100;interactions.push({type:"scroll",t:now-startTime,y:scrollY,depth_pct:depthPct});},{passive:true});
-document.addEventListener("mousemove",function(e){if(isCapped()||cursorPath.length>=MAX_CURSOR_POINTS)return;var now=Date.now();if(now-lastCursorSample<250)return;lastCursorSample=now;cursorPath.push([Math.round(e.clientX),Math.round(e.clientY),now-startTime]);},{passive:true});
-document.addEventListener("keydown",function(e){if(isCapped()||interactions.length>=MAX_INTERACTIONS)return;if(e.target&&(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA"))return;interactions.push({type:"keydown",t:Date.now()-startTime,key:e.key});},true);
-function buildAnalytics(){if(!meta)return null;var ph=document.documentElement.scrollHeight;var maxScroll=0,clickElements={},firstClick=null,firstScroll=null,totalDistance=0;for(var i=0;i<interactions.length;i++){var ev=interactions[i];if(ev.type==="scroll"){if(ev.depth_pct>maxScroll)maxScroll=ev.depth_pct;if(!firstScroll)firstScroll=ev.t;}if(ev.type==="click"){if(!firstClick)firstClick=ev.t;var key=ev.element.tag+":"+ev.element.text.substring(0,30);clickElements[key]=true;}}for(var j=1;j<cursorPath.length;j++){var dx=cursorPath[j][0]-cursorPath[j-1][0];var dy=cursorPath[j][1]-cursorPath[j-1][1];totalDistance+=Math.sqrt(dx*dx+dy*dy);}var duration=Date.now()-startTime;var clickHeatmap=[];for(var k=0;k<interactions.length;k++){if(interactions[k].type==="click")clickHeatmap.push([interactions[k].x,interactions[k].y]);}return{generation_id:meta.generationId,tournament_id:meta.tournamentId,started_at:new Date(startTime).toISOString(),ended_at:new Date().toISOString(),duration_ms:duration,viewport:viewport,page_height:ph,interactions:interactions,cursor_path:cursorPath,click_heatmap:clickHeatmap,summary:{total_clicks:clickHeatmap.length,total_scrolls:interactions.filter(function(e){return e.type==="scroll";}).length,max_scroll_depth_pct:maxScroll,unique_elements_clicked:Object.keys(clickElements).length,time_to_first_click_ms:firstClick,time_to_first_scroll_ms:firstScroll,cursor_distance_px:Math.round(totalDistance),active_time_ms:duration}};}
-function loadRrweb(){if(rrwebStarted)return;rrwebStarted=true;var s=document.createElement("script");s.src=RRWEB_CDN;s.onload=function(){var rec=(window.rrweb&&window.rrweb.record)||window.rrwebRecord;if(!rec)return;rec({emit:function(event){if(rrwebEvents.length>=MAX_RRWEB_EVENTS||isCapped())return;rrwebEvents.push(event);}});};s.onerror=function(){};document.head.appendChild(s);}
-window.addEventListener("message",function(e){if(!e.data||typeof e.data.type!=="string")return;if(e.data.type==="arena:init"){if(!meta)startTime=Date.now();meta={generationId:e.data.generationId||e.data.modelId,tournamentId:e.data.tournamentId};persist();loadRrweb();if(e.source)e.source.postMessage({type:"arena:init-ack",generationId:meta.generationId},"*");}if(e.data.type==="arena:flush"){var resp={type:"arena:recording-data",generationId:meta?meta.generationId:null,rrwebEvents:rrwebEvents,analytics:buildAnalytics()};try{sessionStorage.removeItem(SK);}catch(ex){}if(e.source)e.source.postMessage(resp,"*");}});
-loadRrweb();
-})();</script>
-  <script data-arena-views="true">(function(){var isTop=false;try{isTop=window.self===window.top;}catch(e){}if(!isTop)return;window.__ARENA_META={generationId:"kimi-k2.6",tournamentId:"d3a6be8c-68c2-4e66-96b8-ff223ad3f3aa"};var payload={tournamentId:"d3a6be8c-68c2-4e66-96b8-ff223ad3f3aa",modelId:"kimi-k2.6"};try{var r=document.referrer;if(r){var u=new URL(r);payload.referrerDomain=u.hostname;}}catch(e){}try{var vid=null;try{vid=localStorage.getItem('arena_vid');}catch(e){}if(!vid){vid=typeof crypto!=="undefined"&&crypto.randomUUID?crypto.randomUUID():(Date.now().toString(36)+Math.random().toString(36).slice(2)).slice(0,32);try{localStorage.setItem('arena_vid',vid);}catch(e){}}if(vid)payload.viewerId=vid;}catch(e){}try{fetch("https://www.designarena.ai/api/agon/page-views",{"method":"POST","headers":{"Content-Type":"application/json"},"body":JSON.stringify(payload),"keepalive":true});}catch(e){}})();</script>
-</head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-      <script data-element-picker>/**
- * Agon Element Picker — injected into the preview iframe.
- *
- * Two modes, both driven by postMessage from the parent:
- *
- * Inspect mode (click-to-select for AI chat prefill):
- *   Parent -> iframe:  { type: 'inspect:mode', enabled: true/false }
- *   iframe -> Parent:  { type: 'element:selected', file, line, column, tag, text, classes, id }
- *
- * Edit mode (WYSIWYG text editing):
- *   Parent -> iframe:  { type: 'arena:edit-mode', enabled: true/false }
- *   Parent -> iframe:  { type: 'arena:set-text', domPath, text }   // undo/redo
- *   iframe -> Parent:  { type: 'arena:text-edit', source: {file,line,col}|null,
- *                        tag, oldText, newText, domPath, ts }
- *
- * Capability handshake (parent shows edit UI only when the build is tagged):
- *   Parent -> iframe:  { type: 'arena:init', ... }   (already sent for recording)
- *   iframe -> Parent:  { type: 'arena:edit-capability', textEdit: true, tagged: bool }
- *
- * Source locations come from data-source-loc="file:line:col" attributes added
- * by the vite source-tags plugin (data-agon-source is read as a legacy fallback).
- */
-(function () {
-  'use strict';
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AETHER® — Digital Design Studio</title>
 
-  // Capability markers — bumped whenever the picker gains behavior that older
-  // baked-in copies lack, so visual_picker_inject._refresh_stale_picker knows
-  // to re-inline this version.
-  //   arena:link-edit     — editing link / <a> text
-  //   arena:textnode-edit — editing a single text node inside a mixed-content
-  //                         element (e.g. <h1>Text<span>..</span></h1>)
-  //   arena:header-edit   — edit `user-select:none` headers/nav; box-only
-  //                         highlight (no source/tag label)
-  //   arena:multirun-edit — patch the exact text run of a multi-run element
-  //                         (e.g. lines split by <br/>), via runIndex
-  // marker: arena:link-edit arena:textnode-edit arena:header-edit arena:multirun-edit
-
-  var SOURCE_ATTR = 'data-source-loc';
-  var LEGACY_SOURCE_ATTR = 'data-agon-source';
-
-  var inspectEnabled = false;
-  var editEnabled = false;
-  var overlay = null;
-  var label = null;
-  var currentTarget = null;
-  var activeEdit = null; // { element, oldText }
-
-  function getSourceAttr(el) {
-    return el.getAttribute(SOURCE_ATTR) || el.getAttribute(LEGACY_SOURCE_ATTR);
-  }
-
-  function createOverlay() {
-    if (overlay) return;
-
-    overlay = document.createElement('div');
-    overlay.id = '__picker-overlay';
-    overlay.style.cssText = [
-      'position: fixed',
-      'pointer-events: none',
-      'z-index: 2147483647',
-      'border: 2px solid #3b82f6',
-      'background: rgba(59, 130, 246, 0.08)',
-      'transition: all 0.05s ease-out',
-      'display: none',
-      'box-sizing: border-box',
-    ].join(';');
-
-    label = document.createElement('div');
-    label.id = '__picker-label';
-    label.style.cssText = [
-      'position: fixed',
-      'pointer-events: none',
-      'z-index: 2147483647',
-      'background: #1e40af',
-      'color: #fff',
-      'font: 11px/1.4 monospace',
-      'padding: 2px 6px',
-      'border-radius: 3px',
-      'white-space: nowrap',
-      'display: none',
-      'max-width: 400px',
-      'overflow: hidden',
-      'text-overflow: ellipsis',
-    ].join(';');
-
-    document.body.appendChild(overlay);
-    document.body.appendChild(label);
-  }
-
-  function removeOverlay() {
-    if (overlay) { overlay.remove(); overlay = null; }
-    if (label) { label.remove(); label = null; }
-  }
-
-  function isPickerNode(el) {
-    return el === overlay || el === label ||
-      el.id === '__picker-overlay' || el.id === '__picker-label';
-  }
-
-  function findSourceAttr(el) {
-    while (el && el !== document.body && el !== document.documentElement) {
-      var src = getSourceAttr(el);
-      if (src) return { element: el, source: src };
-      el = el.parentElement;
-    }
-    return null;
-  }
-
-  function parseSource(sourceStr) {
-    // Format: "relative/path.tsx:line:col"
-    var parts = sourceStr.split(':');
-    if (parts.length < 3) return { file: sourceStr, line: 0, column: 0 };
-    var col = parseInt(parts.pop(), 10);
-    var line = parseInt(parts.pop(), 10);
-    var file = parts.join(':'); // rejoin in case path has colons (unlikely but safe)
-    return { file: file, line: line, column: col };
-  }
-
-  // Stable-enough CSS path so the parent can address this element for undo.
-  function domPath(el) {
-    var segs = [];
-    while (el && el !== document.body && el.parentElement) {
-      var i = 1;
-      var sib = el;
-      while ((sib = sib.previousElementSibling)) i++;
-      segs.unshift(el.tagName.toLowerCase() + ':nth-child(' + i + ')');
-      el = el.parentElement;
-    }
-    return 'body > ' + segs.join(' > ');
-  }
-
-  // An element is whole-text-editable when it owns at least one non-whitespace
-  // text node and no element children — editing such an element via
-  // contenteditable is safe. Mixed-content elements are handled per-text-node
-  // (see resolveEditable / beginEditTextNode) instead.
-  function isTextEditable(el) {
-    if (!el || el.children.length > 0) return false;
-    for (var i = 0; i < el.childNodes.length; i++) {
-      var n = el.childNodes[i];
-      if (n.nodeType === Node.TEXT_NODE && n.textContent.trim()) return true;
-    }
-    return false;
-  }
-
-  // The text node directly under a viewport point, if it holds real text.
-  function textNodeAtPoint(x, y) {
-    var node = null;
-    if (document.caretPositionFromPoint) {
-      var cp = document.caretPositionFromPoint(x, y);
-      node = cp && cp.offsetNode;
-    } else if (document.caretRangeFromPoint) {
-      var r = document.caretRangeFromPoint(x, y);
-      node = r && r.startContainer;
-    }
-    if (node && node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
-      return node;
-    }
-    return null;
-  }
-
-  // First direct non-whitespace text child of an element, if any.
-  function firstDirectTextNode(el) {
-    if (!el) return null;
-    for (var i = 0; i < el.childNodes.length; i++) {
-      var n = el.childNodes[i];
-      if (n.nodeType === Node.TEXT_NODE && n.textContent.trim()) return n;
-    }
-    return null;
-  }
-
-  // Resolve what a hover/click at (x, y) should edit:
-  //   { kind: 'text', textNode, element }  — one text run inside a mixed element
-  //   { kind: 'element', element }         — a whole pure-text element
-  //   null                                 — nothing editable here
-  function resolveEditable(target, x, y) {
-    var tn = textNodeAtPoint(x, y);
-    if (tn) {
-      var p = tn.parentElement;
-      // Only split out an individual text node when the element also has
-      // element children (mixed content); pure-text elements use the cleaner
-      // whole-element path below.
-      if (p && !isPickerNode(p) && p.children.length > 0) {
-        return { kind: 'text', textNode: tn, element: p };
-      }
-    }
-    if (isTextEditable(target)) return { kind: 'element', element: target };
-    // Fallback for mixed-content elements whose caret can't be hit-tested
-    // (e.g. `user-select: none` headers/nav): edit the first direct text run.
-    if (target && !isPickerNode(target) && target.children.length > 0) {
-      var direct = firstDirectTextNode(target);
-      if (direct) return { kind: 'text', textNode: direct, element: target };
-    }
-    return null;
-  }
-
-  // Viewport rect of a text node's contents (falls back to its parent).
-  function rectOfTextNode(tn) {
-    try {
-      var r = document.createRange();
-      r.selectNodeContents(tn);
-      var rect = r.getBoundingClientRect();
-      if (rect && (rect.width || rect.height)) return rect;
-    } catch (e) { /* fall through */ }
-    return tn.parentElement ? tn.parentElement.getBoundingClientRect() : null;
-  }
-
-  function applyHighlight(rect, editable, labelEl, showLabel) {
-    if (!overlay || !rect) return;
-    overlay.style.top = rect.top + 'px';
-    overlay.style.left = rect.left + 'px';
-    overlay.style.width = rect.width + 'px';
-    overlay.style.height = rect.height + 'px';
-    overlay.style.borderColor = editable ? '#10b981' : '#3b82f6';
-    overlay.style.background = editable
-      ? 'rgba(16, 185, 129, 0.08)' : 'rgba(59, 130, 246, 0.08)';
-    overlay.style.display = 'block';
-
-    // Edit mode shows just the highlight box — no source/tag label.
-    if (!showLabel || !label) {
-      if (label) label.style.display = 'none';
-      return;
-    }
-
-    var tag = labelEl ? labelEl.tagName.toLowerCase() : 'text';
-    var src = labelEl ? getSourceAttr(labelEl) : null;
-    var labelText = '<' + tag + '>';
-    if (src) {
-      var parsed = parseSource(src);
-      labelText += '  ' + parsed.file + ':' + parsed.line;
-    }
-    if (editable) labelText += '  ✎';
-    label.textContent = labelText;
-    label.style.background = editable ? '#065f46' : '#1e40af';
-
-    // Position label above the highlight, or below if too close to top
-    var labelTop = rect.top - 22;
-    if (labelTop < 4) labelTop = rect.bottom + 4;
-    label.style.top = labelTop + 'px';
-    label.style.left = Math.max(4, rect.left) + 'px';
-    label.style.display = 'block';
-  }
-
-  function highlightElement(el, editable, showLabel) {
-    if (!el) return;
-    applyHighlight(el.getBoundingClientRect(), editable, el, showLabel);
-  }
-
-  function hideOverlay() {
-    if (overlay) overlay.style.display = 'none';
-    if (label) label.style.display = 'none';
-    currentTarget = null;
-  }
-
-  function postToParent(msg) {
-    if (window.parent && window.parent !== window) {
-      window.parent.postMessage(msg, '*');
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: { ink: '#0A0A0B', bone: '#EDEAE2', lime: '#D6FF3F', smoke: '#131315' },
+      fontFamily: { syne: ['Syne','sans-serif'], grotesk: ['"Space Grotesk"','sans-serif'] }
     }
   }
-
-  // ---------------------------------------------------------------- inspect
-
-  function onMouseOver(e) {
-    if (!inspectEnabled && !editEnabled) return;
-    var target = e.target;
-    if (isPickerNode(target)) return;
-    if (activeEdit && target === activeEdit.element) { hideOverlay(); return; }
-
-    if (editEnabled) {
-      // Edit mode: highlight box only, no source/tag label (showLabel=false).
-      var res = resolveEditable(target, e.clientX, e.clientY);
-      if (res) {
-        currentTarget = res.element;
-        if (res.kind === 'text') {
-          applyHighlight(rectOfTextNode(res.textNode), true, res.element, false);
-        } else {
-          highlightElement(res.element, true, false);
-        }
-      } else {
-        currentTarget = target;
-        highlightElement(target, false, false);
-      }
-      return;
-    }
-
-    var found = findSourceAttr(target);
-    if (found) {
-      currentTarget = found.element;
-      highlightElement(found.element, false, true);
-    } else {
-      currentTarget = target;
-      highlightElement(target, false, true);
-    }
-  }
-
-  function onMouseOut(e) {
-    if (!inspectEnabled && !editEnabled) return;
-    var related = e.relatedTarget;
-    if (related === overlay || related === label) return;
-    if (!e.relatedTarget || e.relatedTarget === document) {
-      hideOverlay();
-    }
-  }
-
-  function onInspectClick(e) {
-    if (!inspectEnabled) return;
-
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
-
-    var target = e.target;
-    if (isPickerNode(target)) return;
-
-    var found = findSourceAttr(target);
-    var element = found ? found.element : target;
-    var sourceStr = found ? found.source : null;
-
-    var info = {
-      type: 'element:selected',
-      tag: element.tagName.toLowerCase(),
-      text: (element.textContent || '').trim().substring(0, 200),
-      classes: element.className && typeof element.className === 'string'
-        ? element.className.substring(0, 300) : '',
-      id: element.id || '',
-      file: null,
-      line: null,
-      column: null,
-    };
-
-    if (sourceStr) {
-      var parsed = parseSource(sourceStr);
-      info.file = parsed.file;
-      info.line = parsed.line;
-      info.column = parsed.column;
-    }
-
-    postToParent(info);
-    console.log('[element-picker] Selected:', info);
-  }
-
-  function enableInspect() {
-    if (inspectEnabled) return;
-    if (editEnabled) disableEdit();
-    inspectEnabled = true;
-    createOverlay();
-    document.addEventListener('mouseover', onMouseOver, true);
-    document.addEventListener('mouseout', onMouseOut, true);
-    document.addEventListener('click', onInspectClick, true);
-    document.body.style.cursor = 'crosshair';
-    console.log('[element-picker] Inspect mode ON');
-  }
-
-  function disableInspect() {
-    if (!inspectEnabled) return;
-    inspectEnabled = false;
-    document.removeEventListener('mouseover', onMouseOver, true);
-    document.removeEventListener('mouseout', onMouseOut, true);
-    document.removeEventListener('click', onInspectClick, true);
-    hideOverlay();
-    removeOverlay();
-    document.body.style.cursor = '';
-    console.log('[element-picker] Inspect mode OFF');
-  }
-
-  // ------------------------------------------------------------------- edit
-
-  function commitEdit() {
-    if (!activeEdit) return;
-    // For text-node edits the contenteditable target is a temporary wrapper
-    // span, but the source location + tag belong to the element that owns the
-    // text (sourceEl). childIndex addresses the specific text run for undo.
-    var editEl = activeEdit.element;
-    var srcEl = activeEdit.kind === 'text' ? activeEdit.sourceEl : editEl;
-    var childIndex = activeEdit.kind === 'text' ? activeEdit.childIndex : null;
-    var runIndex = activeEdit.kind === 'text' ? activeEdit.textRunIndex : null;
-    var oldText = activeEdit.oldText;
-    var newText = editEl.textContent;
-    endEdit();
-
-    if (newText === oldText) return;
-
-    var sourceStr = getSourceAttr(srcEl);
-    postToParent({
-      type: 'arena:text-edit',
-      source: sourceStr ? parseSource(sourceStr) : null,
-      tag: srcEl.tagName.toLowerCase(),
-      oldText: oldText,
-      newText: newText,
-      domPath: domPath(srcEl),
-      childIndex: childIndex,
-      runIndex: runIndex,
-      ts: Date.now(),
-    });
-  }
-
-  function cancelEdit() {
-    if (!activeEdit) return;
-    activeEdit.element.textContent = activeEdit.oldText;
-    endEdit();
-  }
-
-  function endEdit() {
-    if (!activeEdit) return;
-    var el = activeEdit.element;
-    el.removeAttribute('contenteditable');
-    el.style.outline = activeEdit.prevOutline;
-    el.style.removeProperty('user-select');
-    el.style.removeProperty('-webkit-user-select');
-    el.removeEventListener('blur', onEditBlur);
-    el.removeEventListener('keydown', onEditKeydown);
-    // Text-node edits: unwrap the temporary span back into a plain text node so
-    // the DOM structure matches the (now-edited) source.
-    if (activeEdit.kind === 'text' && el.parentNode) {
-      el.parentNode.replaceChild(document.createTextNode(el.textContent), el);
-    }
-    // Restore the href we stashed while editing a link (see beginEdit).
-    if (activeEdit.anchor && activeEdit.prevHref != null) {
-      activeEdit.anchor.setAttribute('href', activeEdit.prevHref);
-    }
-    activeEdit = null;
-  }
-
-  function onEditBlur() {
-    commitEdit();
-  }
-
-  function onEditKeydown(e) {
-    e.stopPropagation();
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      commitEdit();
-    } else if (e.key === 'Escape') {
-      e.preventDefault();
-      cancelEdit();
-    }
-  }
-
-  // Nearest enclosing link whose href should be neutralized while editing, so a
-  // click (caret placement) or Enter (commit) doesn't navigate away. Restored
-  // in endEdit; JS-driven router navigation is suppressed in onEditClick.
-  function stashAnchorHref(el) {
-    var anchor = el.tagName === 'A' ? el : (el.closest ? el.closest('a') : null);
-    var prevHref = anchor && anchor.hasAttribute('href') ? anchor.getAttribute('href') : null;
-    if (anchor && prevHref != null) anchor.removeAttribute('href');
-    return { anchor: prevHref != null ? anchor : null, prevHref: prevHref };
-  }
-
-  // Turn `el` into a focused, select-all contenteditable region.
-  function activateEditable(el) {
-    try {
-      el.setAttribute('contenteditable', 'plaintext-only');
-      if (!el.isContentEditable) el.setAttribute('contenteditable', 'true');
-    } catch (err) {
-      el.setAttribute('contenteditable', 'true');
-    }
-    el.style.outline = '2px solid #10b981';
-    // Headers/nav are frequently `user-select: none`, which also blocks
-    // contenteditable editing; force it on (important beats class styles) for
-    // the duration of the edit. Cleared in endEdit (element) / discarded with
-    // the wrapper (text).
-    el.style.setProperty('user-select', 'text', 'important');
-    el.style.setProperty('-webkit-user-select', 'text', 'important');
-    el.addEventListener('blur', onEditBlur);
-    el.addEventListener('keydown', onEditKeydown);
-    el.focus();
-
-    // Select all text so a replacement starts with a clean slate
-    try {
-      var range = document.createRange();
-      range.selectNodeContents(el);
-      var sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
-    } catch (err) { /* selection is best-effort */ }
-
-    hideOverlay();
-  }
-
-  // Edit a whole pure-text element in place.
-  function beginEdit(el) {
-    if (activeEdit) commitEdit();
-    var href = stashAnchorHref(el);
-    activeEdit = {
-      kind: 'element',
-      element: el,
-      oldText: el.textContent,
-      prevOutline: el.style.outline,
-      anchor: href.anchor,
-      prevHref: href.prevHref,
-    };
-    activateEditable(el);
-  }
-
-  // Edit a single text run inside a mixed-content element (e.g. the leading
-  // text of <h1>Text<span>..</span></h1>). The run is wrapped in a temporary
-  // span so only it becomes editable; the wrapper is removed in endEdit, and
-  // the edit is reported against the owning element's source location.
-  function beginEditTextNode(textNode, sourceEl) {
-    if (activeEdit) commitEdit();
-
-    var parent = textNode.parentElement;
-    var childIndex = Array.prototype.indexOf.call(parent.childNodes, textNode);
-    // Index of this text node among the parent's non-whitespace direct text
-    // runs — lets the server patch the exact run of a multi-run element
-    // (e.g. <h1>A<br/>B<br/>C</h1>), not just the first.
-    var textRunIndex = 0;
-    for (var k = 0; k < parent.childNodes.length; k++) {
-      var cn = parent.childNodes[k];
-      if (cn === textNode) break;
-      if (cn.nodeType === Node.TEXT_NODE && cn.textContent.trim()) textRunIndex++;
-    }
-    var oldText = textNode.textContent;
-    var href = stashAnchorHref(parent);
-
-    var wrap = document.createElement('span');
-    wrap.setAttribute('data-agon-edit-wrap', '');
-    parent.replaceChild(wrap, textNode);
-    wrap.appendChild(textNode);
-
-    activeEdit = {
-      kind: 'text',
-      element: wrap,
-      sourceEl: sourceEl || parent,
-      childIndex: childIndex,
-      textRunIndex: textRunIndex,
-      oldText: oldText,
-      prevOutline: wrap.style.outline,
-      anchor: href.anchor,
-      prevHref: href.prevHref,
-    };
-    activateEditable(wrap);
-  }
-
-  function onEditClick(e) {
-    if (!editEnabled) return;
-
-    var target = e.target;
-    if (isPickerNode(target)) return;
-
-    // Clicks inside the element being edited behave normally (caret moves).
-    // When editing link text, still swallow the event so the app's own click
-    // handlers (e.g. router <Link> navigation) don't fire — caret placement is
-    // the browser default action and survives stopImmediatePropagation.
-    if (activeEdit && (target === activeEdit.element || activeEdit.element.contains(target))) {
-      if (activeEdit.anchor) {
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-      }
-      return;
-    }
-
-    e.preventDefault();
-    e.stopPropagation();
-    e.stopImmediatePropagation();
-
-    if (activeEdit) commitEdit();
-    var res = resolveEditable(target, e.clientX, e.clientY);
-    if (res && res.kind === 'text') {
-      beginEditTextNode(res.textNode, res.element);
-    } else if (res && res.kind === 'element') {
-      beginEdit(res.element);
-    }
-  }
-
-  function enableEdit() {
-    if (editEnabled) return;
-    if (inspectEnabled) disableInspect();
-    editEnabled = true;
-    createOverlay();
-    document.addEventListener('mouseover', onMouseOver, true);
-    document.addEventListener('mouseout', onMouseOut, true);
-    document.addEventListener('click', onEditClick, true);
-    document.body.style.cursor = 'text';
-    console.log('[element-picker] Edit mode ON');
-  }
-
-  function disableEdit() {
-    if (!editEnabled) return;
-    if (activeEdit) commitEdit();
-    editEnabled = false;
-    document.removeEventListener('mouseover', onMouseOver, true);
-    document.removeEventListener('mouseout', onMouseOut, true);
-    document.removeEventListener('click', onEditClick, true);
-    hideOverlay();
-    removeOverlay();
-    document.body.style.cursor = '';
-    console.log('[element-picker] Edit mode OFF');
-  }
-
-  // Parent-driven text set, used for undo/redo of committed edits. When
-  // childIndex is provided the edit targeted a single text run of a
-  // mixed-content element, so only that child node is restored (setting the
-  // element's textContent would clobber its sibling elements).
-  function setText(path, text, childIndex) {
-    var el = null;
-    try { el = document.querySelector(path); } catch (err) { /* bad selector */ }
-    if (!el) {
-      console.warn('[element-picker] arena:set-text target not found:', path);
-      return;
-    }
-    if (activeEdit && activeEdit.element === el) cancelEdit();
-    if (childIndex != null && el.childNodes[childIndex]) {
-      el.childNodes[childIndex].textContent = text;
-    } else {
-      el.textContent = text;
-    }
-  }
-
-  function reportCapability() {
-    var tagged = !!document.querySelector(
-      '[' + SOURCE_ATTR + '], [' + LEGACY_SOURCE_ATTR + ']'
-    );
-    postToParent({ type: 'arena:edit-capability', textEdit: true, tagged: tagged });
-  }
-
-  // ---------------------------------------------------------------- wiring
-
-  window.addEventListener('message', function (e) {
-    if (!e.data || typeof e.data.type !== 'string') return;
-
-    switch (e.data.type) {
-      case 'inspect:mode':
-        if (e.data.enabled) enableInspect();
-        else disableInspect();
-        break;
-      case 'arena:edit-mode':
-        if (e.data.enabled) enableEdit();
-        else disableEdit();
-        break;
-      case 'arena:set-text':
-        setText(e.data.domPath, e.data.text, e.data.childIndex);
-        break;
-      case 'arena:init':
-        reportCapability();
-        break;
-    }
-  });
-
-  // Also support toggling via keyboard for standalone testing:
-  //   Alt+Shift+I — inspect mode, Alt+Shift+E — edit mode
-  document.addEventListener('keydown', function (e) {
-    if (e.altKey && e.shiftKey && e.key === 'I') {
-      inspectEnabled ? disableInspect() : enableInspect();
-    } else if (e.altKey && e.shiftKey && e.key === 'E') {
-      editEnabled ? disableEdit() : enableEdit();
-    }
-  });
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', reportCapability);
-  } else {
-    reportCapability();
-  }
-
-  console.log('[element-picker] Loaded. inspect:mode / arena:edit-mode (or Alt+Shift+I / Alt+Shift+E).');
-})();
+}
 </script>
-  </body>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  html { scroll-behavior: auto; }
+  body { background:#0A0A0B; color:#EDEAE2; overflow-x:hidden; }
+  ::selection { background:#D6FF3F; color:#0A0A0B; }
+  ::-webkit-scrollbar { width:5px; }
+  ::-webkit-scrollbar-track { background:#0A0A0B; }
+  ::-webkit-scrollbar-thumb { background:rgba(237,234,226,.25); border-radius:99px; }
+
+  @media (hover:hover) and (pointer:fine) {
+    * { cursor: none !important; }
+  }
+
+  /* ---------- Custom cursor ---------- */
+  #cursor-dot {
+    position:fixed; top:0; left:0; width:8px; height:8px; border-radius:50%;
+    background:#D6FF3F; z-index:300; pointer-events:none; transform:translate(-50%,-50%);
+  }
+  #cursor-ring {
+    position:fixed; top:0; left:0; width:40px; height:40px; border-radius:50%;
+    border:1px solid rgba(237,234,226,.5); z-index:299; pointer-events:none;
+    transform:translate(-50%,-50%); display:flex; align-items:center; justify-content:center;
+    transition:width .35s cubic-bezier(.22,1,.36,1), height .35s cubic-bezier(.22,1,.36,1), background .35s, border-color .35s;
+  }
+  #cursor-ring span {
+    font-family:'Space Grotesk'; font-size:10px; letter-spacing:.15em; color:#0A0A0B;
+    opacity:0; transition:opacity .25s; font-weight:500;
+  }
+  #cursor-ring.is-view { width:88px; height:88px; background:#D6FF3F; border-color:#D6FF3F; }
+  #cursor-ring.is-view span { opacity:1; }
+  #cursor-ring.is-link { width:64px; height:64px; border-color:#D6FF3F; }
+  @media (hover:none) { #cursor-dot, #cursor-ring { display:none; } }
+
+  /* ---------- Grain ---------- */
+  .grain {
+    position:fixed; inset:-100%; z-index:150; pointer-events:none; opacity:.055;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    animation:grain 7s steps(10) infinite;
+  }
+  @keyframes grain {
+    0%,100%{transform:translate(0,0)} 10%{transform:translate(-5%,-8%)} 20%{transform:translate(-12%,4%)}
+    30%{transform:translate(6%,-14%)} 40%{transform:translate(-4%,12%)} 50%{transform:translate(-12%,7%)}
+    60%{transform:translate(11%,0)} 70%{transform:translate(0,10%)} 80%{transform:translate(3%,13%)} 90%{transform:translate(-8%,8%)}
+  }
+
+  /* ---------- Preloader ---------- */
+  #preloader { position:fixed; inset:0; z-index:200; background:#0A0A0B; display:flex; align-items:center; justify-content:center; }
+  #pre-bar { position:absolute; bottom:0; left:0; height:3px; width:100%; background:rgba(237,234,226,.08); }
+  #pre-fill { height:100%; width:0%; background:#D6FF3F; }
+
+  /* ---------- Hero ---------- */
+  .char { display:inline-block; will-change:transform; }
+  .hero-mask { overflow:hidden; }
+  #hero-canvas { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; opacity:0; }
+
+  .rot-badge { animation:spin 14s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
+  .scroll-line { width:1px; height:56px; background:rgba(237,234,226,.25); position:relative; overflow:hidden; }
+  .scroll-line::after { content:''; position:absolute; top:-100%; left:0; width:100%; height:100%; background:#D6FF3F; animation:sline 1.8s cubic-bezier(.76,0,.24,1) infinite; }
+  @keyframes sline { 0%{top:-100%} 50%{top:0} 100%{top:100%} }
+
+  /* ---------- Marquee ---------- */
+  .marquee-track { display:flex; width:max-content; animation:marquee 22s linear infinite; }
+  .marquee-track.fast { animation-duration:14s; }
+  @keyframes marquee { to { transform:translateX(-50%); } }
+
+  /* ---------- Manifesto ---------- */
+  .mword { opacity:.12; display:inline-block; margin-right:.28em; will-change:opacity; }
+
+  /* ---------- Works ---------- */
+  .work-item { position:relative; overflow:hidden; }
+  .work-item::before {
+    content:''; position:absolute; inset:0; background:#D6FF3F;
+    transform:scaleY(0); transform-origin:bottom; transition:transform .5s cubic-bezier(.76,0,.24,1);
+  }
+  .work-item:hover::before { transform:scaleY(1); }
+  .work-item > * { position:relative; z-index:1; }
+  .work-item .w-title, .work-item .w-meta, .work-item .w-idx, .work-item .w-arrow { transition:color .4s, transform .5s cubic-bezier(.22,1,.36,1); }
+  .work-item:hover .w-title, .work-item:hover .w-meta, .work-item:hover .w-idx { color:#0A0A0B; }
+  .work-item:hover .w-arrow { color:#0A0A0B; transform:translate(6px,-6px) rotate(0deg); }
+  .work-item:hover .w-title { transform:translateX(14px); }
+
+  #work-preview {
+    position:fixed; top:0; left:0; width:300px; height:380px; z-index:80; pointer-events:none;
+    overflow:hidden; opacity:0; transform:translate(-50%,-50%) scale(0);
+    border-radius:4px;
+  }
+  #work-preview img { width:100%; height:100%; object-fit:cover; }
+
+  /* ---------- Services ---------- */
+  .service-body { height:0; overflow:hidden; }
+  .service-item.open .service-plus { transform:rotate(45deg); background:#D6FF3F; color:#0A0A0B; border-color:#D6FF3F; }
+  .service-plus { transition:transform .5s cubic-bezier(.22,1,.36,1), background .4s, color .4s; }
+  .service-head:hover .service-name { color:#D6FF3F; transform:translateX(10px); }
+  .service-name { transition:color .35s, transform .5s cubic-bezier(.22,1,.36,1); }
+
+  /* ---------- Menu overlay ---------- */
+  #menu-overlay { clip-path:inset(0 0 100% 0); visibility:hidden; }
+  .menu-link .ml-fill {
+    position:absolute; inset:0; color:#D6FF3F; clip-path:inset(0 100% 0 0);
+    transition:clip-path .55s cubic-bezier(.76,0,.24,1); white-space:nowrap;
+  }
+  .menu-link:hover .ml-fill { clip-path:inset(0 0% 0 0); }
+
+  /* ---------- Footer CTA ---------- */
+  .cta-flip { position:relative; overflow:hidden; display:inline-block; }
+  .cta-flip .cta-a, .cta-flip .cta-b { display:block; transition:transform .6s cubic-bezier(.76,0,.24,1); }
+  .cta-flip .cta-b { position:absolute; inset:0; transform:translateY(105%); color:#D6FF3F; }
+  .cta-flip:hover .cta-a { transform:translateY(-105%); }
+  .cta-flip:hover .cta-b { transform:translateY(0); }
+
+  .outline-text { -webkit-text-stroke:1px rgba(237,234,226,.35); color:transparent; }
+
+  [data-reveal] { opacity:0; transform:translateY(40px); }
+</style>
+</head>
+
+<body class="font-grotesk antialiased">
+
+<!-- GRAIN -->
+<div class="grain"></div>
+
+<!-- CURSOR -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"><span>VIEW</span></div>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="text-center">
+    <p class="font-syne font-800 text-lime tracking-[.4em] text-xs mb-4" style="font-weight:800">AETHER® STUDIO</p>
+    <h1 id="pre-count" class="font-syne text-[18vw] md:text-[10rem] leading-none" style="font-weight:800">0</h1>
+  </div>
+  <div id="pre-bar"><div id="pre-fill"></div></div>
+</div>
+
+<!-- NAV -->
+<header class="fixed top-0 left-0 w-full z-[100] px-6 md:px-10 py-6 flex items-center justify-between mix-blend-difference">
+  <a href="#" id="logo" class="font-syne text-xl tracking-tight" style="font-weight:800">AETHER<span class="text-lime">®</span></a>
+  <div class="hidden md:flex items-center gap-2 text-xs tracking-[.2em] text-bone/70">
+    <span class="w-2 h-2 rounded-full bg-lime animate-pulse inline-block"></span>
+    <span>PARIS, FR — <span id="clock">00:00:00</span></span>
+  </div>
+  <button id="menu-btn" data-magnetic class="flex items-center gap-3 group">
+    <span id="menu-label" class="text-xs tracking-[.3em]">MENU</span>
+    <span class="flex flex-col gap-[6px]">
+      <span id="ml1" class="block w-7 h-[2px] bg-bone transition-transform duration-500"></span>
+      <span id="ml2" class="block w-7 h-[2px] bg-bone transition-transform duration-500"></span>
+    </span>
+  </button>
+</header>
+
+<!-- MENU OVERLAY -->
+<div id="menu-overlay" class="fixed inset-0 z-[90] bg-smoke flex flex-col justify-between px-6 md:px-10 pt-32 pb-10">
+  <nav class="flex flex-col gap-2">
+    <a href="#work" class="menu-link relative font-syne text-[13vw] md:text-[7vw] leading-[1.05] overflow-hidden" style="font-weight:800" data-target="#work">
+      <span class="ml-idx text-sm font-grotesk align-top mr-4 text-bone/40">01</span><span class="ml-base">WORK</span><span class="ml-fill" aria-hidden="true">WORK</span>
+    </a>
+    <a href="#about" class="menu-link relative font-syne text-[13vw] md:text-[7vw] leading-[1.05] overflow-hidden" style="font-weight:800" data-target="#about">
+      <span class="ml-idx text-sm font-grotesk align-top mr-4 text-bone/40">02</span><span class="ml-base">STUDIO</span><span class="ml-fill" aria-hidden="true">STUDIO</span>
+    </a>
+    <a href="#services" class="menu-link relative font-syne text-[13vw] md:text-[7vw] leading-[1.05] overflow-hidden" style="font-weight:800" data-target="#services">
+      <span class="ml-idx text-sm font-grotesk align-top mr-4 text-bone/40">03</span><span class="ml-base">SERVICES</span><span class="ml-fill" aria-hidden="true">SERVICES</span>
+    </a>
+    <a href="#contact" class="menu-link relative font-syne text-[13vw] md:text-[7vw] leading-[1.05] overflow-hidden" style="font-weight:800" data-target="#contact">
+      <span class="ml-idx text-sm font-grotesk align-top mr-4 text-bone/40">04</span><span class="ml-base">CONTACT</span><span class="ml-fill" aria-hidden="true">CONTACT</span>
+    </a>
+  </nav>
+  <div class="flex flex-col md:flex-row justify-between gap-4 text-xs tracking-[.2em] text-bone/50 border-t border-bone/10 pt-6">
+    <span>HELLO@AETHER.STUDIO</span>
+    <span>INSTAGRAM — BEHANCE — TWITTER/X</span>
+    <span>© 2025 AETHER®</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- HERO -->
+  <section id="hero" class="relative h-[100svh] flex flex-col justify-between overflow-hidden">
+    <canvas id="hero-canvas"></canvas>
+
+    <div class="relative z-10 flex-1 flex flex-col justify-center px-6 md:px-10 pt-24">
+      <p id="hero-kicker" class="text-xs tracking-[.4em] text-bone/60 mb-6 opacity-0">DIGITAL DESIGN STUDIO — EST. 2016</p>
+      <div class="hero-mask">
+        <h1 id="hero-title" class="font-syne leading-[.85] tracking-tight text-[19vw] md:text-[15vw]" style="font-weight:800">AETHER<span class="text-lime text-[.35em] align-top">®</span></h1>
+      </div>
+      <div class="hero-mask mt-2">
+        <h2 id="hero-sub" class="font-syne leading-[.9] text-[8vw] md:text-[5vw] outline-text" style="font-weight:700">WE DESIGN TOMORROW</h2>
+      </div>
+    </div>
+
+    <div id="hero-bottom" class="relative z-10 px-6 md:px-10 pb-10 flex items-end justify-between opacity-0">
+      <div class="flex items-center gap-4">
+        <div class="scroll-line"></div>
+        <span class="text-xs tracking-[.3em] text-bone/60">SCROLL<br>TO EXPLORE</span>
+      </div>
+      <div class="hidden md:block text-xs tracking-[.2em] text-bone/60 text-right">
+        <span class="text-lime">●</span> AVAILABLE FOR Q3 2025<br>BRANDING / WEB / MOTION
+      </div>
+      <div class="relative w-24 h-24 md:w-28 md:h-28">
+        <svg class="rot-badge w-full h-full" viewBox="0 0 100 100">
+          <defs><path id="circ" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0"/></defs>
+          <text class="fill-bone/70" style="font-size:8.5px; letter-spacing:2.5px; font-family:'Space Grotesk'">
+            <textPath href="#circ">EXPLORE — CREATE — REPEAT — EXPLORE — CREATE —</textPath>
+          </text>
+        </svg>
+        <div class="absolute inset-0 flex items-center justify-center">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 4v16m0 0l-6-6m6 6l6-6" stroke="#D6FF3F" stroke-width="2"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <section class="border-y border-bone/10 py-5 overflow-hidden bg-ink relative z-10">
+    <div class="marquee-track font-syne text-2xl md:text-4xl" style="font-weight:700">
+      <span class="flex items-center whitespace-nowrap">
+        <span class="mx-6">BRAND IDENTITY</span><span class="text-lime mx-2">✦</span>
+        <span class="mx-6 outline-text">DIGITAL EXPERIENCE</span><span class="text-lime mx-2">✦</span>
+        <span class="mx-6">MOTION & 3D</span><span class="text-lime mx-2">✦</span>
+        <span class="mx-6 outline-text">CREATIVE DEVELOPMENT</span><span class="text-lime mx-2">✦</span>
+      </span>
+      <span class="flex items-center whitespace-nowrap" aria-hidden="true">
+        <span class="mx-6">BRAND IDENTITY</span><span class="text-lime mx-2">✦</span>
+        <span class="mx-6 outline-text">DIGITAL EXPERIENCE</span><span class="text-lime mx-2">✦</span>
+        <span class="mx-6">MOTION & 3D</span><span class="text-lime mx-2">✦</span>
+        <span class="mx-6 outline-text">CREATIVE DEVELOPMENT</span><span class="text-lime mx-2">✦</span>
+      </span>
+    </div>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section id="about" class="px-6 md:px-10 py-28 md:py-44 max-w-6xl mx-auto">
+    <p data-reveal class="text-xs tracking-[.4em] text-lime mb-10">(01) — MANIFESTO</p>
+    <p id="manifesto" class="font-syne text-3xl md:text-6xl leading-[1.15]" style="font-weight:700">We are a collective of designers, engineers and storytellers crafting digital experiences that blur the line between art and interface. Every pixel intentional. Every motion earned.</p>
+    <div data-reveal class="mt-14 flex flex-wrap gap-8 text-xs tracking-[.25em] text-bone/50">
+      <span>→ STRATEGY FIRST</span>
+      <span>→ DESIGN OBSESSED</span>
+      <span>→ CODE AS CRAFT</span>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section id="work" class="py-20 md:py-32">
+    <div class="px-6 md:px-10 flex items-end justify-between mb-14">
+      <h2 data-reveal class="font-syne text-[12vw] md:text-[7vw] leading-none" style="font-weight:800">SELECTED<br><span class="outline-text">WORKS</span></h2>
+      <span data-reveal class="font-syne text-lime text-xl md:text-3xl" style="font-weight:700">(05)</span>
+    </div>
+
+    <div id="works-list" class="border-t border-bone/10">
+      <a href="#" class="work-item group border-b border-bone/10 px-6 md:px-10 py-8 md:py-10 flex items-center justify-between gap-4" data-img="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=900&auto=format&fit=crop" data-cursor="view">
+        <span class="w-idx text-xs text-bone/40 tracking-widest">01</span>
+        <span class="w-title font-syne text-3xl md:text-6xl flex-1" style="font-weight:700">LUMEN ARCHIVE</span>
+        <span class="w-meta hidden md:block text-xs tracking-[.25em] text-bone/50">BRAND IDENTITY — 2024</span>
+        <svg class="w-arrow text-bone/60" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <a href="#" class="work-item group border-b border-bone/10 px-6 md:px-10 py-8 md:py-10 flex items-center justify-between gap-4" data-img="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=900&auto=format&fit=crop" data-cursor="view">
+        <span class="w-idx text-xs text-bone/40 tracking-widest">02</span>
+        <span class="w-title font-syne text-3xl md:text-6xl flex-1" style="font-weight:700">ORBITAL</span>
+        <span class="w-meta hidden md:block text-xs tracking-[.25em] text-bone/50">WEB EXPERIENCE — 2024</span>
+        <svg class="w-arrow text-bone/60" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <a href="#" class="work-item group border-b border-bone/10 px-6 md:px-10 py-8 md:py-10 flex items-center justify-between gap-4" data-img="https://images.unsplash.com/photo-1618556450994-a6a128ef0d99?q=80&w=900&auto=format&fit=crop" data-cursor="view">
+        <span class="w-idx text-xs text-bone/40 tracking-widest">03</span>
+        <span class="w-title font-syne text-3xl md:text-6xl flex-1" style="font-weight:700">PULSE / FORM</span>
+        <span class="w-meta hidden md:block text-xs tracking-[.25em] text-bone/50">MOTION & 3D — 2023</span>
+        <svg class="w-arrow text-bone/60" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <a href="#" class="work-item group border-b border-bone/10 px-6 md:px-10 py-8 md:py-10 flex items-center justify-between gap-4" data-img="https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?q=80&w=900&auto=format&fit=crop" data-cursor="view">
+        <span class="w-idx text-xs text-bone/40 tracking-widest">04</span>
+        <span class="w-title font-syne text-3xl md:text-6xl flex-1" style="font-weight:700">ATLAS NOIR</span>
+        <span class="w-meta hidden md:block text-xs tracking-[.25em] text-bone/50">E-COMMERCE — 2023</span>
+        <svg class="w-arrow text-bone/60" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <a href="#" class="work-item group border-b border-bone/10 px-6 md:px-10 py-8 md:py-10 flex items-center justify-between gap-4" data-img="https://images.unsplash.com/photo-1620121692029-d088224ddc74?q=80&w=900&auto=format&fit=crop" data-cursor="view">
+        <span class="w-idx text-xs text-bone/40 tracking-widest">05</span>
+        <span class="w-title font-syne text-3xl md:text-6xl flex-1" style="font-weight:700">SONIC BLOOM</span>
+        <span class="w-meta hidden md:block text-xs tracking-[.25em] text-bone/50">INSTALLATION — 2022</span>
+        <svg class="w-arrow text-bone/60" width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H8M17 7v9" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Floating preview -->
+  <div id="work-preview"><img id="work-preview-img" src="" alt=""></div>
+
+  <!-- SERVICES -->
+  <section id="services" class="px-6 md:px-10 py-24 md:py-40 max-w-6xl mx-auto">
+    <p data-reveal class="text-xs tracking-[.4em] text-lime mb-10">(02) — CAPABILITIES</p>
+    <h2 data-reveal class="font-syne text-4xl md:text-7xl mb-16 leading-[1.02]" style="font-weight:800">WHAT WE<br><span class="outline-text">DO BEST</span></h2>
+
+    <div class="border-t border-bone/10">
+
+      <div class="service-item border-b border-bone/10">
+        <button class="service-head w-full flex items-center justify-between py-8 text-left gap-4">
+          <span class="flex items-baseline gap-6"><span class="text-xs text-bone/40 tracking-widest">01</span><span class="service-name font-syne text-2xl md:text-5xl" style="font-weight:700">BRAND IDENTITY</span></span>
+          <span class="service-plus w-10 h-10 shrink-0 rounded-full border border-bone/30 flex items-center justify-center text-xl">+</span>
+        </button>
+        <div class="service-body">
+          <div class="pb-10 pl-0 md:pl-14 max-w-2xl">
+            <p class="text-bone/60 leading-relaxed mb-6">Naming, visual systems, art direction and brand worlds built to endure. We distill strategy into identities that speak before a single word is read.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">STRATEGY</span>
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">LOGO & TYPE</span>
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">GUIDELINES</span>
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">ART DIRECTION</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-item border-b border-bone/10">
+        <button class="service-head w-full flex items-center justify-between py-8 text-left gap-4">
+          <span class="flex items-baseline gap-6"><span class="text-xs text-bone/40 tracking-widest">02</span><span class="service-name font-syne text-2xl md:text-5xl" style="font-weight:700">DIGITAL EXPERIENCE</span></span>
+          <span class="service-plus w-10 h-10 shrink-0 rounded-full border border-bone/30 flex items-center justify-center text-xl">+</span>
+        </button>
+        <div class="service-body">
+          <div class="pb-10 pl-0 md:pl-14 max-w-2xl">
+            <p class="text-bone/60 leading-relaxed mb-6">Websites, products and platforms designed as living systems. Interfaces that feel inevitable — fast, fluid and unforgettable.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">UX / UI</span>
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">DESIGN SYSTEMS</span>
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">E-COMMERCE</span>
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">PROTOTYPING</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-item border-b border-bone/10">
+        <button class="service-head w-full flex items-center justify-between py-8 text-left gap-4">
+          <span class="flex items-baseline gap-6"><span class="text-xs text-bone/40 tracking-widest">03</span><span class="service-name font-syne text-2xl md:text-5xl" style="font-weight:700">MOTION & 3D</span></span>
+          <span class="service-plus w-10 h-10 shrink-0 rounded-full border border-bone/30 flex items-center justify-center text-xl">+</span>
+        </button>
+        <div class="service-body">
+          <div class="pb-10 pl-0 md:pl-14 max-w-2xl">
+            <p class="text-bone/60 leading-relaxed mb-6">Cinematic motion language, real-time 3D and WebGL scenes that give brands dimension, depth and drama across every screen.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">WEBGL</span>
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">3D DIRECTION</span>
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">ANIMATION</span>
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">SHADERS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="service-item border-b border-bone/10">
+        <button class="service-head w-full flex items-center justify-between py-8 text-left gap-4">
+          <span class="flex items-baseline gap-6"><span class="text-xs text-bone/40 tracking-widest">04</span><span class="service-name font-syne text-2xl md:text-5xl" style="font-weight:700">CREATIVE DEVELOPMENT</span></span>
+          <span class="service-plus w-10 h-10 shrink-0 rounded-full border border-bone/30 flex items-center justify-center text-xl">+</span>
+        </button>
+        <div class="service-body">
+          <div class="pb-10 pl-0 md:pl-14 max-w-2xl">
+            <p class="text-bone/60 leading-relaxed mb-6">Hand-built front-ends with obsessive attention to performance and feel. Physics-based interaction, buttery scroll, zero compromise.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">FRONT-END</span>
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">GSAP</span>
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">THREE.JS</span>
+              <span class="text-xs tracking-widest border border-bone/20 rounded-full px-4 py-2">HEADLESS CMS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="border-y border-bone/10 bg-smoke">
+    <div class="grid grid-cols-2 md:grid-cols-4">
+      <div class="p-10 md:p-14 border-b md:border-b-0 border-r border-bone/10">
+        <p class="font-syne text-5xl md:text-7xl text-lime" style="font-weight:800"><span class="stat-num" data-count="9">00</span></p>
+        <p class="text-xs tracking-[.3em] text-bone/50 mt-3">YEARS OF CRAFT</p>
+      </div>
+      <div class="p-10 md:p-14 border-b md:border-b-0 md:border-r border-bone/10">
+        <p class="font-syne text-5xl md:text-7xl text-lime" style="font-weight:800"><span class="stat-num" data-count="128">000</span></p>
+        <p class="text-xs tracking-[.3em] text-bone/50 mt-3">PROJECTS SHIPPED</p>
+      </div>
+      <div class="p-10 md:p-14 border-r border-bone/10">
+        <p class="font-syne text-5xl md:text-7xl text-lime" style="font-weight:800"><span class="stat-num" data-count="26">00</span></p>
+        <p class="text-xs tracking-[.3em] text-bone/50 mt-3">GLOBAL AWARDS</p>
+      </div>
+      <div class="p-10 md:p-14">
+        <p class="font-syne text-5xl md:text-7xl text-lime" style="font-weight:800"><span class="stat-num" data-count="14">00</span></p>
+        <p class="text-xs tracking-[.3em] text-bone/50 mt-3">COUNTRIES REACHED</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / FOOTER -->
+  <footer id="contact" class="relative px-6 md:px-10 pt-28 md:pt-44 pb-8 overflow-hidden">
+    <p data-reveal class="text-xs tracking-[.4em] text-lime mb-8">(03) — CONTACT</p>
+    <p data-reveal class="text-bone/50 text-lg md:text-xl mb-6">Have an idea worth building?</p>
+
+    <a href="mailto:hello@aether.studio" class="cta-flip font-syne leading-[.95] text-[15vw] md:text-[11vw]" style="font-weight:800" data-reveal>
+      <span class="cta-a">LET'S TALK ↗</span>
+      <span class="cta-b" aria-hidden="true">LET'S TALK ↗</span>
+    </a>
+
+    <div class="mt-20 md:mt-32 flex flex-col md:flex-row justify-between gap-10 border-t border-bone/10 pt-10">
+      <div>
+        <p class="text-xs tracking-[.3em] text-bone/40 mb-3">NEW BUSINESS</p>
+        <a href="mailto:hello@aether.studio" data-magnetic class="inline-block text-lg border-b border-lime pb-1">hello@aether.studio</a>
+      </div>
+      <div>
+        <p class="text-xs tracking-[.3em] text-bone/40 mb-3">SOCIALS</p>
+        <div class="flex gap-6 text-sm">
+          <a href="#" class="hover:text-lime transition-colors">Instagram</a>
+          <a href="#" class="hover:text-lime transition-colors">Behance</a>
+          <a href="#" class="hover:text-lime transition-colors">X</a>
+          <a href="#" class="hover:text-lime transition-colors">LinkedIn</a>
+        </div>
+      </div>
+      <div>
+        <p class="text-xs tracking-[.3em] text-bone/40 mb-3">STUDIO</p>
+        <p class="text-sm text-bone/70">14 Rue du Faubourg<br>75010 Paris, France</p>
+      </div>
+    </div>
+
+    <div class="mt-16 overflow-hidden border-t border-bone/10 pt-6">
+      <div class="marquee-track fast font-syne text-lg tracking-[.2em] text-bone/30" style="font-weight:700">
+        <span class="whitespace-nowrap">AETHER® — DESIGN BEYOND THE SCREEN — AETHER® — DESIGN BEYOND THE SCREEN —&nbsp;</span>
+        <span class="whitespace-nowrap" aria-hidden="true">AETHER® — DESIGN BEYOND THE SCREEN — AETHER® — DESIGN BEYOND THE SCREEN —&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="mt-8 flex justify-between items-center text-xs text-bone/40 tracking-widest">
+      <span>© 2025 AETHER® STUDIO</span>
+      <button id="to-top" data-magnetic class="hover:text-lime transition-colors tracking-widest">BACK TO TOP ↑</button>
+    </div>
+  </footer>
+
+</main>
+
+<!-- LIBS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ============ SMOOTH SCROLL ============ */
+const lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((t) => lenis.raf(t * 1000));
+gsap.ticker.lagSmoothing(0);
+
+/* ============ CUSTOM CURSOR ============ */
+const dot = document.getElementById('cursor-dot');
+const ring = document.getElementById('cursor-ring');
+const dotX = gsap.quickTo(dot, 'x', { duration: 0.08, ease: 'power2.out' });
+const dotY = gsap.quickTo(dot, 'y', { duration: 0.08, ease: 'power2.out' });
+const ringX = gsap.quickTo(ring, 'x', { duration: 0.45, ease: 'power3.out' });
+const ringY = gsap.quickTo(ring, 'y', { duration: 0.45, ease: 'power3.out' });
+window.addEventListener('mousemove', (e) => {
+  dotX(e.clientX); dotY(e.clientY); ringX(e.clientX); ringY(e.clientY);
+});
+document.querySelectorAll('a, button, [data-magnetic]').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('is-link'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('is-link'));
+});
+
+/* ============ CLOCK ============ */
+function tickClock() {
+  const el = document.getElementById('clock');
+  if (el) el.textContent = new Date().toLocaleTimeString('en-GB', { timeZone: 'Europe/Paris', hour12: false });
+}
+tickClock(); setInterval(tickClock, 1000);
+
+/* ============ HERO SHADER (THREE.JS) ============ */
+(function initShader() {
+  const canvas = document.getElementById('hero-canvas');
+  const hero = document.getElementById('hero');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+  const scene = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+  const uniforms = {
+    uTime: { value: 0 },
+    uRes: { value: new THREE.Vector2(1, 1) },
+    uMouse: { value: new THREE.Vector2(0, 0) }
+  };
+
+  const frag = `
+    precision highp float;
+    uniform float uTime; uniform vec2 uRes; uniform vec2 uMouse;
+    vec3 permute(vec3 x){ return mod(((x*34.0)+1.0)*x, 289.0); }
+    float snoise(vec2 v){
+      const vec4 C = vec4(0.211324865405187,0.366025403784439,-0.577350269189626,0.024390243902439);
+      vec2 i = floor(v + dot(v, C.yy));
+      vec2 x0 = v - i + dot(i, C.xx);
+      vec2 i1 = (x0.x > x0.y) ? vec2(1.0,0.0) : vec2(0.0,1.0);
+      vec4 x12 = x0.xyxy + C.xxzz; x12.xy -= i1;
+      i = mod(i, 289.0);
+      vec3 p = permute(permute(i.y + vec3(0.0,i1.y,1.0)) + i.x + vec3(0.0,i1.x,1.0));
+      vec3 m = max(0.5 - vec3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)), 0.0);
+      m = m*m; m = m*m;
+      vec3 x = 2.0 * fract(p * C.www) - 1.0;
+      vec3 h = abs(x) - 0.5;
+      vec3 ox = floor(x + 0.5);
+      vec3 a0 = x - ox;
+      m *= 1.79284291400159 - 0.85373472095314 * (a0*a0 + h*h);
+      vec3 g;
+      g.x = a0.x * x0.x + h.x * x0.y;
+      g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+      return 130.0 * dot(m, g);
+    }
+    float fbm(vec2 p){
+      float v = 0.0; float a = 0.5;
+      for(int i=0;i<5;i++){ v += a * snoise(p); p *= 2.05; a *= 0.5; }
+      return v;
+    }
+    void main(){
+      vec2 uv = gl_FragCoord.xy / uRes.xy;
+      vec2 p = uv * vec2(uRes.x / uRes.y, 1.0);
+      float t = uTime * 0.07;
+      vec2 m = uMouse * 0.6;
+      float warp = fbm(p * 2.0 - t + m);
+      float n = fbm(p * 1.5 + vec2(t, -t * 0.7) + warp * 0.9);
+      float n2 = fbm(p * 3.2 - vec2(t * 0.5) + n);
+      vec3 base = vec3(0.038, 0.038, 0.045);
+      vec3 deep = vec3(0.10, 0.13, 0.05);
+      vec3 glow = vec3(0.84, 1.0, 0.25);
+      float mixv = smoothstep(0.05, 0.95, n * 0.5 + 0.5);
+      vec3 col = mix(base, deep, mixv);
+      float hl = smoothstep(0.55, 0.98, n2 * 0.5 + 0.5) * 0.32;
+      col += glow * hl * (0.35 + 0.65 * mixv);
+      float vig = smoothstep(1.25, 0.25, length(uv - 0.5));
+      col *= vig;
+      gl_FragColor = vec4(col, 1.0);
+    }
+  `;
+  const vert = `void main(){ gl_Position = vec4(position, 1.0); }`;
+
+  const mesh = new THREE.Mesh(
+    new THREE.PlaneGeometry(2, 2),
+    new THREE.ShaderMaterial({ fragmentShader: frag, vertexShader: vert, uniforms })
+  );
+  scene.add(mesh);
+
+  function resize() {
+    const w = hero.clientWidth, h = hero.clientHeight;
+    renderer.setSize(w, h, false);
+    uniforms.uRes.value.set(w * renderer.getPixelRatio(), h * renderer.getPixelRatio());
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const mouseTarget = { x: 0, y: 0 };
+  window.addEventListener('mousemove', (e) => {
+    mouseTarget.x = (e.clientX / window.innerWidth - 0.5);
+    mouseTarget.y = (e.clientY / window.innerHeight - 0.5);
+  });
+
+  const clock = new THREE.Clock();
+  (function render() {
+    requestAnimationFrame(render);
+    uniforms.uTime.value = clock.getElapsedTime();
+    uniforms.uMouse.value.x += (mouseTarget.x - uniforms.uMouse.value.x) * 0.04;
+    uniforms.uMouse.value.y += (mouseTarget.y - uniforms.uMouse.value.y) * 0.04;
+    renderer.render(scene, camera);
+  })();
+})();
+
+/* ============ TEXT SPLITTING ============ */
+function splitChars(el) {
+  const nodes = [];
+  const walk = (node) => {
+    [...node.childNodes].forEach(child => {
+      if (child.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        [...child.textContent].forEach(ch => {
+          const s = document.createElement('span');
+          s.className = 'char';
+          s.innerHTML = ch === ' ' ? '&nbsp;' : ch;
+          frag.appendChild(s); nodes.push(s);
+        });
+        node.replaceChild(frag, child);
+      } else if (child.nodeType === 1) walk(child);
+    });
+  };
+  walk(el);
+  return nodes;
+}
+function splitWords(el) {
+  const words = el.textContent.trim().split(/\s+/);
+  el.innerHTML = words.map(w => `<span class="mword">${w}</span>`).join('');
+  return el.querySelectorAll('.mword');
+}
+
+const heroChars = splitChars(document.getElementById('hero-title'));
+const subChars = splitChars(document.getElementById('hero-sub'));
+gsap.set(heroChars, { yPercent: 120 });
+gsap.set(subChars, { yPercent: 120 });
+
+/* ============ HERO INTRO ============ */
+function heroIntro() {
+  const tl = gsap.timeline();
+  tl.to('#hero-canvas', { opacity: 1, duration: 1.6, ease: 'power2.out' }, 0)
+    .to(heroChars, { yPercent: 0, duration: 1.2, ease: 'expo.out', stagger: 0.045 }, 0.1)
+    .to(subChars, { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.02 }, 0.35)
+    .to('#hero-kicker', { opacity: 1, duration: 0.8 }, 0.7)
+    .to('#hero-bottom', { opacity: 1, duration: 0.9 }, 0.9);
+}
+
+/* ============ PRELOADER ============ */
+(function preloader() {
+  const counter = { v: 0 };
+  const countEl = document.getElementById('pre-count');
+  const fill = document.getElementById('pre-fill');
+  const tl = gsap.timeline({
+    onComplete: () => {
+      gsap.set('#preloader', { display: 'none' });
+      heroIntro();
+    }
+  });
+  tl.to(counter, {
+    v: 100, duration: 2.1, ease: 'power2.inOut',
+    onUpdate: () => {
+      countEl.textContent = Math.round(counter.v);
+      fill.style.width = counter.v + '%';
+    }
+  })
+  .to(countEl, { yPercent: -40, opacity: 0, duration: 0.5, ease: 'power2.in' }, '+=0.15')
+  .to('#preloader', { yPercent: -100, duration: 1, ease: 'expo.inOut' }, '-=0.1');
+})();
+
+/* ============ MENU ============ */
+let menuOpen = false;
+const overlay = document.getElementById('menu-overlay');
+const menuLinks = overlay.querySelectorAll('.menu-link');
+const menuBtn = document.getElementById('menu-btn');
+
+const menuTl = gsap.timeline({ paused: true });
+menuTl
+  .set(overlay, { visibility: 'visible' })
+  .to(overlay, { clipPath: 'inset(0 0 0% 0)', duration: 0.85, ease: 'expo.inOut' })
+  .from(menuLinks, { yPercent: 60, opacity: 0, duration: 0.7, ease: 'expo.out', stagger: 0.07 }, '-=0.3');
+
+menuBtn.addEventListener('click', () => {
+  menuOpen = !menuOpen;
+  document.getElementById('menu-label').textContent = menuOpen ? 'CLOSE' : 'MENU';
+  gsap.to('#ml1', { rotate: menuOpen ? 45 : 0, y: menuOpen ? 4 : 0, duration: 0.4, ease: 'power3.out' });
+  gsap.to('#ml2', { rotate: menuOpen ? -45 : 0, y: menuOpen ? -4 : 0, duration: 0.4, ease: 'power3.out' });
+  if (menuOpen) { menuTl.timeScale(1).play(); lenis.stop(); }
+  else { menuTl.timeScale(1.4).reverse(); lenis.start(); }
+});
+
+menuLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = link.dataset.target;
+    menuOpen = false;
+    document.getElementById('menu-label').textContent = 'MENU';
+    gsap.to('#ml1', { rotate: 0, y: 0, duration: 0.4 });
+    gsap.to('#ml2', { rotate: 0, y: 0, duration: 0.4 });
+    menuTl.timeScale(1.6).reverse();
+    lenis.start();
+    setTimeout(() => lenis.scrollTo(target, { duration: 1.5, easing: t => 1 - Math.pow(1 - t, 4) }), 500);
+  });
+});
+
+/* ============ MAGNETIC ============ */
+document.querySelectorAll('[data-magnetic]').forEach(el => {
+  const strength = 0.35;
+  el.addEventListener('mousemove', (e) => {
+    const r = el.getBoundingClientRect();
+    gsap.to(el, {
+      x: (e.clientX - r.left - r.width / 2) * strength,
+      y: (e.clientY - r.top - r.height / 2) * strength,
+      duration: 0.4, ease: 'power3.out'
+    });
+  });
+  el.addEventListener('mouseleave', () => {
+    gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.4)' });
+  });
+});
+
+/* ============ HERO PARALLAX ============ */
+gsap.to('#hero-title', {
+  yPercent: 30, ease: 'none',
+  scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+});
+gsap.to('#hero-sub', {
+  yPercent: 60, opacity: 0.2, ease: 'none',
+  scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+});
+
+/* ============ MANIFESTO SCRUB ============ */
+const mWords = splitWords(document.getElementById('manifesto'));
+gsap.to(mWords, {
+  opacity: 1, stagger: 0.06, ease: 'none',
+  scrollTrigger: { trigger: '#about', start: 'top 70%', end: 'bottom 65%', scrub: 1 }
+});
+
+/* ============ REVEALS ============ */
+ScrollTrigger.batch('[data-reveal]', {
+  start: 'top 88%',
+  onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, duration: 1, ease: 'expo.out', stagger: 0.12 })
+});
+
+/* ============ WORK PREVIEW ============ */
+const preview = document.getElementById('work-preview');
+const previewImg = document.getElementById('work-preview-img');
+const worksSection = document.getElementById('works-list');
+const pvX = gsap.quickTo(preview, 'x', { duration: 0.55, ease: 'power3.out' });
+const pvY = gsap.quickTo(preview, 'y', { duration: 0.55, ease: 'power3.out' });
+const pvR = gsap.quickTo(preview, 'rotation', { duration: 0.6, ease: 'power3.out' });
+let lastX = 0;
+
+// Preload
+document.querySelectorAll('.work-item').forEach(item => {
+  const img = new Image(); img.src = item.dataset.img;
+});
+
+worksSection.addEventListener('mousemove', (e) => {
+  pvX(e.clientX); pvY(e.clientY);
+  const delta = e.clientX - lastX; lastX = e.clientX;
+  pvR(gsap.utils.clamp(-12, 12, delta * 0.5));
+});
+
+document.querySelectorAll('.work-item').forEach(item => {
+  item.addEventListener('mouseenter', () => {
+    previewImg.src = item.dataset.img;
+    ring.classList.add('is-view');
+    gsap.to(preview, { opacity: 1, scale: 1, duration: 0.45, ease: 'power3.out',
+      transformOrigin: 'center', overwrite: 'auto' });
+    gsap.fromTo(previewImg, { scale: 1.25 }, { scale: 1, duration: 0.7, ease: 'power3.out' });
+  });
+  item.addEventListener('mouseleave', () => {
+    ring.classList.remove('is-view');
+    gsap.to(preview, { opacity: 0, scale: 0, duration: 0.35, ease: 'power3.in' });
+  });
+  item.addEventListener('click', (e) => e.preventDefault());
+});
+gsap.set(preview, { xPercent: -50, yPercent: -50, scale: 0 });
+
+/* ============ SERVICES ACCORDION ============ */
+document.querySelectorAll('.service-item').forEach(item => {
+  const head = item.querySelector('.service-head');
+  const body = item.querySelector('.service-body');
+  head.addEventListener('click', () => {
+    const isOpen = item.classList.contains('open');
+    // close all
+    document.querySelectorAll('.service-item.open').forEach(other => {
+      other.classList.remove('open');
+      gsap.to(other.querySelector('.service-body'), { height: 0, duration: 0.55, ease: 'power3.inOut' });
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      gsap.to(body, {
+        height: body.scrollHeight, duration: 0.65, ease: 'power3.inOut',
+        onComplete: () => { body.style.height = 'auto'; ScrollTrigger.refresh(); }
+      });
+    }
+  });
+});
+
+/* ============ STATS COUNT-UP ============ */
+document.querySelectorAll('.stat-num').forEach(el => {
+  const target = +el.dataset.count;
+  const pad = el.textContent.length;
+  const obj = { v: 0 };
+  ScrollTrigger.create({
+    trigger: el, start: 'top 88%', once: true,
+    onEnter: () => gsap.to(obj, {
+      v: target, duration: 2, ease: 'power3.out',
+      onUpdate: () => { el.textContent = String(Math.round(obj.v)).padStart(pad, '0'); }
+    })
+  });
+});
+
+/* ============ BACK TO TOP ============ */
+document.getElementById('to-top').addEventListener('click', () => {
+  lenis.scrollTo(0, { duration: 1.6, easing: t => 1 - Math.pow(1 - t, 4) });
+});
+document.getElementById('logo').addEventListener('click', (e) => {
+  e.preventDefault();
+  lenis.scrollTo(0, { duration: 1.4 });
+});
+
+window.addEventListener('load', () => ScrollTrigger.refresh());
+</script>
+</body>
 </html>
