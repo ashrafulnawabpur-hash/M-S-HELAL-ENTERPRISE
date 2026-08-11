@@ -1,0 +1,188 @@
+@import "tailwindcss";
+
+@theme {
+  --color-skf-blue: #0000FE;
+  --color-skf-navy: #02115C;
+  --color-skf-pale: #CCDCFF;
+  --color-skf-dark: #0A0A0A;
+  --color-skf-gray: #6B7280;
+  --color-skf-light-gray: #F3F4F6;
+  --color-skf-border: #E5E7EB;
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: #0A0A0A;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.7s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.7s ease-out forwards;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(2, 17, 92, 0.12);
+}
+
+.btn-primary {
+  background-color: #0000FE;
+  color: white;
+  padding: 14px 32px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover {
+  background-color: #02115C;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 254, 0.3);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #0000FE;
+  padding: 14px 32px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.025em;
+  border: 2px solid #0000FE;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-secondary:hover {
+  background-color: #0000FE;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.section-padding {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-top: 120px;
+    padding-bottom: 120px;
+  }
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #02115C 0%, #0000FE 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.card-shadow {
+  box-shadow: 0 4px 24px rgba(2, 17, 92, 0.06);
+}
+
+.nav-link {
+  position: relative;
+  color: #0A0A0A;
+  font-weight: 500;
+  font-size: 0.875rem;
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #0000FE;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #0000FE;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.gradient-hero {
+  background: linear-gradient(135deg, #02115C 0%, #0000FE 50%, #02115C 100%);
+}
+
+.gradient-overlay {
+  background: linear-gradient(to right, rgba(2, 17, 92, 0.95) 0%, rgba(2, 17, 92, 0.7) 50%, transparent 100%);
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #0000FE;
+  box-shadow: 0 0 0 3px rgba(0, 0, 254, 0.1);
+}
