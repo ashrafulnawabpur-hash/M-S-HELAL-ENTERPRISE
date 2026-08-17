@@ -498,8 +498,12 @@ export default function Admin() {
                       <td className="px-5 py-3.5">
                         <div className="flex items-center gap-3">
                           <img
-                            src={p.image}
+                            src={p.image || "/images/skf/ai-dg-01.jpg"}
                             alt=""
+                            onError={(e) => {
+                              const t = e.currentTarget;
+                              if (!t.dataset.fallback) { t.dataset.fallback = "1"; t.src = "/images/skf/ai-dg-01.jpg"; }
+                            }}
                             className="h-11 w-14 rounded border border-line object-cover"
                           />
                           <div>

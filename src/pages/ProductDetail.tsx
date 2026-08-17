@@ -75,8 +75,15 @@ export default function ProductDetail() {
           <Reveal>
             <div className="sticky top-32 overflow-hidden rounded-lg border border-line bg-mist">
               <img
-                src={product.image}
+                src={product.image || "/images/skf/ai-dg-01.jpg"}
                 alt={product.name}
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (!target.dataset.fallback) {
+                    target.dataset.fallback = "1";
+                    target.src = "/images/skf/ai-dg-01.jpg";
+                  }
+                }}
                 className="aspect-[4/3] w-full object-cover"
               />
               <span className="absolute left-5 top-5 rounded-sm bg-white px-3 py-1.5 text-xs font-extrabold uppercase tracking-wider text-navy shadow">

@@ -96,12 +96,12 @@ function persist(key: string, value: unknown) {
 }
 
 export function StoreProvider({ children }: { children: ReactNode }) {
-  const [products, setProducts] = useState<Product[]>(() => load("he_products_v3", PRODUCTS));
+  const [products, setProducts] = useState<Product[]>(() => load("he_products_v4", PRODUCTS));
   const [cart, setCart] = useState<CartLine[]>(() => load("he_cart", []));
   const [orders, setOrders] = useState<Order[]>(() => load("he_orders", []));
   const [inquiries, setInquiries] = useState<Inquiry[]>(() => load("he_inquiries", []));
 
-  useEffect(() => persist("he_products_v3", products), [products]);
+  useEffect(() => persist("he_products_v4", products), [products]);
   useEffect(() => persist("he_cart", cart), [cart]);
   useEffect(() => persist("he_orders", orders), [orders]);
   useEffect(() => persist("he_inquiries", inquiries), [inquiries]);
