@@ -1,254 +1,264 @@
-import { useState } from 'react'
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from 'lucide-react'
+import { useState, type FormEvent } from "react";
+import { motion } from "framer-motion";
+import {
+  CheckCircle2,
+  Clock,
+  Mail,
+  MapPin,
+  Phone,
+  Send,
+} from "lucide-react";
+import { Crumbs, Reveal } from "../components/ui";
+import YouTubeSection from "../components/YouTubeSection";
+import { COMPANY } from "../lib/data";
+import { useStore } from "../lib/store";
+
+const SUBJECTS = [
+  "Price quotation",
+  "Product availability",
+  "Interchange / part matching",
+  "Bulk & tender enquiry",
+  "Delivery status",
+  "Other",
+];
 
 export default function Contact() {
-  const [submitted, setSubmitted] = useState(false)
-  const [formData, setFormData] = useState({
-    name: '',
-    company: '',
-    email: '',
-    phone: '',
-    product: '',
-    message: '',
-  })
+  const { addInquiry } = useStore();
+  const [form, setForm] = useState({ name: "", contact: "", subject: SUBJECTS[0], message: "" });
+  const [errors, setErrors] = useState<{ name?: string; contact?: string; message?: string }>({});
+  const [sent, setSent] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => {
-      setSubmitted(false)
-      setFormData({ name: '', company: '', email: '', phone: '', product: '', message: '' })
-    }, 4000)
-  }
+  const submit = (e: FormEvent) => {
+    e.preventDefault();
+    const err: typeof errors = {};
+    if (form.name.trim().length < 3) err.name = "Please enter your name";
+    if (form.contact.trim().length < 5) err.contact = "Enter a phone or email we can reply to";
+    if (form.message.trim().length < 10) err.message = "Tell us a little more (min. 10 characters)";
+    setErrors(err);
+    if (Object.keys(err).length) return;
+    addInquiry(form);
+    setSent(true);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+  const inputCls = (bad?: string) =>
+    `w-full rounded-md border bg-white px-4 py-3 text-sm font-medium text-ink outline-none transition-colors placeholder:text-steel/60 ${
+      bad ? "border-red-400 focus:border-red-500" : "border-line focus:border-brand"
+    }`;
 
   return (
     <div>
-      {/* Page Header */}
-      <div className="bg-skf-navy py-20 md:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <span className="text-skf-blue text-xs font-semibold uppercase tracking-widest">
-            Contact Us
-          </span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-white mt-3 mb-4">
-            Let's Discuss Your<br />Requirements
+      {/* title band */}
+      <div className="border-b border-line bg-mist">
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+          <Crumbs items={[{ label: "Home", to: "/" }, { label: "Contact" }]} />
+          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-navy sm:text-4xl">
+            Talk to our counter team
           </h1>
-          <p className="text-white/70 max-w-2xl text-sm sm:text-base">
-            Whether you need a quote, technical advice, or product availability — 
-            our team is ready to assist you promptly.
+          <p className="mt-2 max-w-xl text-[15px] text-steel">
+            Call for instant pricing, email your BOM for a formatted quotation, or drop by the shop
+            — we're at the same Nawabpur address since the beginning.
           </p>
         </div>
       </div>
 
-      <section className="section-padding bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-            {/* Contact Info */}
-            <div className="lg:col-span-2 space-y-8">
-              <div>
-                <span className="text-skf-blue text-xs font-semibold uppercase tracking-widest">
-                  Reach Out
-                </span>
-                <h2 className="text-2xl sm:text-3xl font-bold text-skf-navy mt-3 mb-4">
-                  Contact Information
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+        <div className="grid gap-8 lg:grid-cols-12">
+          {/* info column */}
+          <div className="space-y-4 lg:col-span-5">
+            <Reveal>
+              <div className="rounded-lg bg-navy p-7 text-white">
+                <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-white/50">
+                  Visit the shop
                 </h2>
-                <p className="text-skf-gray leading-relaxed">
-                  Visit our store in Nawabpur or reach out through any of the channels below. 
-                  We respond to all inquiries within 24 hours.
-                </p>
-              </div>
-
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-skf-blue/10 rounded-lg flex items-center justify-center shrink-0">
-                    <MapPin size={20} className="text-skf-blue" />
-                  </div>
+                <div className="mt-4 flex items-start gap-3.5">
+                  <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
                   <div>
-                    <h4 className="font-semibold text-skf-navy mb-1">Address</h4>
-                    <p className="text-skf-gray text-sm">
-                      219-220 Nawabpur Road<br />
-                      Dhaka, Bangladesh
-                    </p>
+                    <p className="font-bold">{COMPANY.name}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-white/75">{COMPANY.address}</p>
                   </div>
                 </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-skf-blue/10 rounded-lg flex items-center justify-center shrink-0">
-                    <Phone size={20} className="text-skf-blue" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-skf-navy mb-1">Phone</h4>
-                    <div className="text-skf-gray text-sm space-y-1">
-                      <p>+880 1715-078403</p>
-                      <p>+880 1335-116262</p>
-                      <p>+880 1816-416867</p>
-                      <p>+880 2471-14890</p>
-                    </div>
-                  </div>
+                <div className="mt-5 flex items-start gap-3.5">
+                  <Clock className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
+                  <p className="text-sm text-white/75">{COMPANY.hours}</p>
                 </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-skf-blue/10 rounded-lg flex items-center justify-center shrink-0">
-                    <Mail size={20} className="text-skf-blue" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-skf-navy mb-1">Email</h4>
-                    <p className="text-skf-gray text-sm">helalent@gmail.com</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-skf-blue/10 rounded-lg flex items-center justify-center shrink-0">
-                    <Clock size={20} className="text-skf-blue" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-skf-navy mb-1">Business Hours</h4>
-                    <p className="text-skf-gray text-sm">
-                      Saturday - Thursday: 9:00 AM - 8:00 PM<br />
-                      Friday: Closed
-                    </p>
-                  </div>
+                <div className="mt-5 flex items-start gap-3.5">
+                  <Mail className="mt-0.5 h-5 w-5 shrink-0 text-brand" />
+                  <a href={`mailto:${COMPANY.email}`} className="text-sm font-semibold hover:text-brand">
+                    {COMPANY.email}
+                  </a>
                 </div>
               </div>
-            </div>
+            </Reveal>
 
-            {/* Form */}
-            <div className="lg:col-span-3">
-              <div className="bg-skf-light-gray/30 border border-skf-border/50 p-6 sm:p-10">
-                {submitted ? (
-                  <div className="text-center py-12">
-                    <CheckCircle size={48} className="text-green-500 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold text-skf-navy mb-2">Message Sent!</h3>
-                    <p className="text-skf-gray">We'll get back to you within 24 hours.</p>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-skf-navy mb-2">
-                          Full Name *
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          required
-                          value={formData.name}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-white border border-skf-border text-sm transition-all"
-                          placeholder="Your name"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-skf-navy mb-2">
-                          Company Name
-                        </label>
-                        <input
-                          type="text"
-                          name="company"
-                          value={formData.company}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-white border border-skf-border text-sm transition-all"
-                          placeholder="Your company"
-                        />
-                      </div>
-                    </div>
+            {COMPANY.phones.map((p, i) => (
+              <Reveal key={p.tel} delay={0.06 + i * 0.05}>
+                <a
+                  href={`tel:${p.tel}`}
+                  className="group flex items-center gap-4 rounded-lg border border-line bg-white p-5 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand hover:shadow-lg"
+                >
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-brand-tint text-brand transition-colors group-hover:bg-brand group-hover:text-white">
+                    <Phone className="h-5.5 w-5.5" />
+                  </span>
+                  <span className="flex-1">
+                    <span className="block text-[11px] font-bold uppercase tracking-[0.16em] text-steel">
+                      {p.tag}
+                    </span>
+                    <span className="mt-0.5 block text-lg font-extrabold tracking-tight text-navy transition-colors group-hover:text-brand">
+                      {p.label}
+                    </span>
+                  </span>
+                </a>
+              </Reveal>
+            ))}
+          </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-skf-navy mb-2">
-                          Email Address *
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          required
-                          value={formData.email}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-white border border-skf-border text-sm transition-all"
-                          placeholder="you@company.com"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-skf-navy mb-2">
-                          Phone Number *
-                        </label>
-                        <input
-                          type="tel"
-                          name="phone"
-                          required
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className="w-full px-4 py-3 bg-white border border-skf-border text-sm transition-all"
-                          placeholder="+880 1XXX-XXXXXX"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-skf-navy mb-2">
-                        Product Interest
-                      </label>
-                      <select
-                        name="product"
-                        value={formData.product}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-white border border-skf-border text-sm transition-all"
-                      >
-                        <option value="">Select a product category</option>
-                        <option value="ball-bearings">Ball Bearings</option>
-                        <option value="roller-bearings">Roller Bearings</option>
-                        <option value="needle-bearings">Needle Bearings</option>
-                        <option value="housings">Bearing Housings</option>
-                        <option value="seals">Oil Seals</option>
-                        <option value="belts">Industrial Belts</option>
-                        <option value="other">Other / Not Sure</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-skf-navy mb-2">
-                        Message *
-                      </label>
-                      <textarea
-                        name="message"
-                        required
-                        rows={5}
-                        value={formData.message}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-white border border-skf-border text-sm transition-all resize-none"
-                        placeholder="Tell us about your requirements, part numbers, quantities, or any questions..."
-                      />
-                    </div>
-
-                    <button type="submit" className="btn-primary w-full justify-center">
-                      <Send size={16} /> Send Inquiry
+          {/* form column */}
+          <div className="lg:col-span-7">
+            <Reveal delay={0.1}>
+              <div className="rounded-lg border border-line bg-white p-7 sm:p-9">
+                {sent ? (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="py-10 text-center"
+                  >
+                    <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50">
+                      <CheckCircle2 className="h-10 w-10 text-emerald-500" />
+                    </span>
+                    <h2 className="mt-6 text-2xl font-extrabold tracking-tight text-navy">
+                      Message received
+                    </h2>
+                    <p className="mx-auto mt-3 max-w-sm text-[15px] text-steel">
+                      Thank you, {form.name.split(" ")[0]}. Our team will reach you shortly at{" "}
+                      <span className="font-bold text-navy">{form.contact}</span>.
+                    </p>
+                    <button
+                      onClick={() => {
+                        setSent(false);
+                        setForm({ name: "", contact: "", subject: SUBJECTS[0], message: "" });
+                      }}
+                      className="mt-7 rounded-md bg-brand px-6 py-3 text-sm font-bold text-white transition-colors hover:bg-brand-dark"
+                    >
+                      Send another message
                     </button>
-                  </form>
+                  </motion.div>
+                ) : (
+                  <>
+                    <h2 className="text-xl font-extrabold tracking-tight text-navy">
+                      Send an enquiry
+                    </h2>
+                    <p className="mt-1.5 text-sm text-steel">
+                      We reply by phone or email within working hours — usually within the hour.
+                    </p>
+                    <form onSubmit={submit} className="mt-7 space-y-5">
+                      <div className="grid gap-5 sm:grid-cols-2">
+                        <div>
+                          <label className="mb-1.5 block text-[13px] font-bold text-navy">
+                            Your name <span className="text-brand">*</span>
+                          </label>
+                          <input
+                            value={form.name}
+                            onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                            placeholder="e.g. Md. Abdul Karim"
+                            className={inputCls(errors.name)}
+                          />
+                          {errors.name && (
+                            <p className="mt-1.5 text-xs font-semibold text-red-500">{errors.name}</p>
+                          )}
+                        </div>
+                        <div>
+                          <label className="mb-1.5 block text-[13px] font-bold text-navy">
+                            Phone or email <span className="text-brand">*</span>
+                          </label>
+                          <input
+                            value={form.contact}
+                            onChange={(e) => setForm((f) => ({ ...f, contact: e.target.value }))}
+                            placeholder="e.g. 01715-000000"
+                            className={inputCls(errors.contact)}
+                          />
+                          {errors.contact && (
+                            <p className="mt-1.5 text-xs font-semibold text-red-500">
+                              {errors.contact}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div>
+                        <label className="mb-1.5 block text-[13px] font-bold text-navy">
+                          Subject
+                        </label>
+                        <select
+                          value={form.subject}
+                          onChange={(e) => setForm((f) => ({ ...f, subject: e.target.value }))}
+                          className={inputCls()}
+                        >
+                          {SUBJECTS.map((s) => (
+                            <option key={s}>{s}</option>
+                          ))}
+                        </select>
+                      </div>
+                      <div>
+                        <label className="mb-1.5 block text-[13px] font-bold text-navy">
+                          Message <span className="text-brand">*</span>
+                        </label>
+                        <textarea
+                          value={form.message}
+                          onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+                          rows={5}
+                          placeholder="e.g. Need 10 pcs 6308-2Z and matching 40×62×12 oil seals — please quote with delivery to Gazipur."
+                          className={`${inputCls(errors.message)} resize-none`}
+                        />
+                        {errors.message && (
+                          <p className="mt-1.5 text-xs font-semibold text-red-500">
+                            {errors.message}
+                          </p>
+                        )}
+                      </div>
+                      <button
+                        type="submit"
+                        className="inline-flex items-center justify-center gap-2 rounded-md bg-brand px-7 py-3.5 text-sm font-bold text-white transition-colors hover:bg-brand-dark"
+                      >
+                        <Send className="h-4 w-4" /> Send Message
+                      </button>
+                    </form>
+                  </>
                 )}
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
-      </section>
 
-      {/* Map placeholder section */}
-      <section className="h-80 bg-skf-light-gray relative overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1920&q=80"
-          alt="Dhaka city view"
-          className="w-full h-full object-cover opacity-30"
-        />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-center">
-            <MapPin size={32} className="text-skf-blue mx-auto mb-3" />
-            <h3 className="text-xl font-bold text-skf-navy">219-220 Nawabpur, Dhaka</h3>
-            <p className="text-skf-gray text-sm mt-1">Visit our store for in-person assistance</p>
+        {/* map */}
+        <Reveal className="mt-10">
+          <div className="overflow-hidden rounded-lg border border-line">
+            <div className="flex flex-wrap items-center justify-between gap-3 bg-navy px-6 py-4">
+              <p className="flex items-center gap-2.5 text-sm font-bold text-white">
+                <MapPin className="h-4.5 w-4.5 text-brand" /> Find us on Nawabpur Road
+              </p>
+              <a
+                href="https://maps.google.com/?q=Nawabpur+Road,+Dhaka,+Bangladesh"
+                target="_blank"
+                rel="noreferrer"
+                className="text-[13px] font-bold text-brand underline-offset-4 hover:underline"
+              >
+                Open in Google Maps
+              </a>
+            </div>
+            <iframe
+              title="M/S Helal Enterprise location — Nawabpur, Dhaka"
+              src="https://www.google.com/maps?q=Nawabpur%20Road%2C%20Dhaka%201100%2C%20Bangladesh&z=15&output=embed"
+              className="h-[380px] w-full border-0"
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
-        </div>
-      </section>
+        </Reveal>
+      </div>
+
+      {/* YouTube video section */}
+      <YouTubeSection />
     </div>
-  )
+  );
 }

@@ -1,147 +1,139 @@
-import { Link } from 'react-router-dom'
-import { Phone, Mail, MapPin, ArrowRight } from 'lucide-react'
-
-const quickLinks = [
-  { name: 'Home', path: '/' },
-  { name: 'Products', path: '/products' },
-  { name: 'About Us', path: '/about' },
-  { name: 'Contact', path: '/contact' },
-]
-
-const products = [
-  'Ball Bearings',
-  'Roller Bearings',
-  'Needle Bearings',
-  'Bearing Housings',
-  'Oil Seals',
-  'Industrial Belts',
-]
+import { ArrowUp, Facebook, Linkedin, Mail, MapPin, Phone, Youtube } from "lucide-react";
+import { Link } from "react-router-dom";
+import { CATEGORIES, COMPANY } from "../lib/data";
+import { LogoMark } from "./Header";
 
 export default function Footer() {
+  const year = new Date().getFullYear();
   return (
-    <footer className="bg-skf-navy text-white">
-      {/* CTA Banner */}
-      <div className="bg-skf-blue">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div>
-              <h3 className="text-2xl md:text-3xl font-bold mb-2">
-                Need Industrial Parts?
-              </h3>
-              <p className="text-white/80 text-sm md:text-base">
-                Contact us today for competitive pricing and fast delivery across Bangladesh.
+    <footer className="bg-gradient-to-b from-navy to-night text-white">
+      {/* main */}
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-14 sm:px-6 md:grid-cols-2 lg:grid-cols-12 lg:py-20 lg:px-8">
+        {/* brand */}
+        <div className="lg:col-span-4">
+          <div className="flex items-center gap-3">
+            <LogoMark />
+            <div className="leading-tight">
+              <p className="text-base font-extrabold tracking-tight">{COMPANY.name}</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-white/60">
+                {COMPANY.division}
               </p>
             </div>
-            <Link
-              to="/contact"
-              className="bg-white text-skf-blue px-8 py-4 font-semibold text-sm hover:bg-skf-pale transition-colors flex items-center gap-2 whitespace-nowrap"
-            >
-              Request Quote <ArrowRight size={16} />
-            </Link>
           </div>
+          <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/70">
+            A family-run industrial supply house in the heart of Nawabpur, Dhaka — keeping
+            factories, workshops and fleets running across Bangladesh with genuine parts and
+            straight advice.
+          </p>
+          <div className="mt-6 flex gap-3">
+            {[
+              { icon: Facebook, label: "Facebook" },
+              { icon: Youtube, label: "YouTube" },
+              { icon: Linkedin, label: "LinkedIn" },
+            ].map(({ icon: Icon, label }) => (
+              <a
+                key={label}
+                href="#"
+                aria-label={label}
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-brand"
+              >
+                <Icon className="h-4.5 w-4.5" />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* products */}
+        <div className="lg:col-span-3">
+          <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-white/50">
+            Product Range
+          </h3>
+          <ul className="mt-5 space-y-2.5">
+            {CATEGORIES.map((c) => (
+              <li key={c.id}>
+                <Link
+                  to={`/products?cat=${c.id}`}
+                  className="text-sm font-medium text-white/80 transition-colors hover:text-white hover:underline"
+                >
+                  {c.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* company */}
+        <div className="lg:col-span-2">
+          <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-white/50">Company</h3>
+          <ul className="mt-5 space-y-2.5">
+            {[
+              { label: "Home", to: "/" },
+              { label: "All Products", to: "/products" },
+              { label: "Industries", to: "/#industries" },
+              { label: "About Us", to: "/#about" },
+              { label: "Contact", to: "/contact" },
+              { label: "Admin Panel", to: "/admin" },
+            ].map((l) => (
+              <li key={l.label}>
+                <Link
+                  to={l.to}
+                  className="text-sm font-medium text-white/80 transition-colors hover:text-white hover:underline"
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* contact */}
+        <div className="lg:col-span-3">
+          <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-white/50">
+            Contact Us
+          </h3>
+          <ul className="mt-5 space-y-4 text-sm text-white/80">
+            <li className="flex gap-3">
+              <MapPin className="mt-0.5 h-4.5 w-4.5 shrink-0 text-brand" />
+              <span>{COMPANY.address}</span>
+            </li>
+            <li className="flex gap-3">
+              <Phone className="mt-0.5 h-4.5 w-4.5 shrink-0 text-brand" />
+              <span className="space-y-1">
+                {COMPANY.phones.map((p) => (
+                  <a key={p.tel} href={`tel:${p.tel}`} className="block hover:text-white">
+                    {p.label}
+                  </a>
+                ))}
+              </span>
+            </li>
+            <li className="flex gap-3">
+              <Mail className="mt-0.5 h-4.5 w-4.5 shrink-0 text-brand" />
+              <a href={`mailto:${COMPANY.email}`} className="hover:text-white">
+                {COMPANY.email}
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
 
-      {/* Main footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Brand */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-skf-blue rounded-sm flex items-center justify-center">
-                <span className="text-white font-bold text-lg">HE</span>
-              </div>
-              <div>
-                <h4 className="font-bold text-lg leading-tight">HELAL ENTERPRISE</h4>
-                <p className="text-[10px] text-white/60 tracking-widest uppercase">
-                  Industrial Solutions
-                </p>
-              </div>
-            </div>
-            <p className="text-white/70 text-sm leading-relaxed mb-6">
-              Your trusted partner for premium bearings and industrial parts in Bangladesh since 1995.
-            </p>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h5 className="font-semibold text-sm uppercase tracking-wider mb-6">
-              Quick Links
-            </h5>
-            <ul className="space-y-3">
-              {quickLinks.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    className="text-white/70 text-sm hover:text-skf-blue transition-colors"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Products */}
-          <div>
-            <h5 className="font-semibold text-sm uppercase tracking-wider mb-6">
-              Products
-            </h5>
-            <ul className="space-y-3">
-              {products.map((product) => (
-                <li key={product}>
-                  <Link
-                    to="/products"
-                    className="text-white/70 text-sm hover:text-skf-blue transition-colors"
-                  >
-                    {product}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h5 className="font-semibold text-sm uppercase tracking-wider mb-6">
-              Contact Us
-            </h5>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <MapPin size={18} className="text-skf-blue mt-0.5 shrink-0" />
-                <span className="text-white/70 text-sm">
-                  219-220 Nawabpur<br />Dhaka, Bangladesh
-                </span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone size={18} className="text-skf-blue shrink-0" />
-                <div className="text-white/70 text-sm space-y-1">
-                  <p>+880 1715-078403</p>
-                  <p>+880 1335-116262</p>
-                  <p>+880 1816-416867</p>
-                  <p>+880 2471-14890</p>
-                </div>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail size={18} className="text-skf-blue shrink-0" />
-                <span className="text-white/70 text-sm">helalent@gmail.com</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/50 text-xs">
-            &copy; {new Date().getFullYear()} M/S Helal Enterprise. All rights reserved.
+      {/* bottom bar */}
+      <div className="border-t border-white/10 bg-night/40">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-5 text-[13px] text-white/60 sm:flex-row sm:px-6 lg:px-8">
+          <p>
+            © {year} {COMPANY.name}. All rights reserved.
           </p>
-          <p className="text-white/50 text-xs">
-            Trusted Industrial Solutions for Bangladesh
+          <p className="font-medium">
+            Genuine parts <span className="mx-1 text-brand">·</span> Honest prices{" "}
+            <span className="mx-1 text-brand">·</span> Fast delivery
           </p>
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="inline-flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 font-bold text-white/80 transition-colors hover:border-brand hover:bg-brand hover:text-white"
+          >
+            <ArrowUp className="h-4 w-4" /> Back to top
+          </button>
         </div>
       </div>
     </footer>
-  )
+  );
 }
